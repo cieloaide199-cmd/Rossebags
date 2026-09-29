@@ -331,10 +331,24 @@ async function deleteProduct(id){
 function resetForm(){$('editId').value='';nameEl.value='';priceEl.value='';descriptionEl.value='';$('photo').value='';$('photos').value='';editingImages=[];removedImages=[];$('extraList').innerHTML='';editingImageUrl='';$('currentPhoto').textContent='';$('formTitle').textContent='Agregar producto';$('cancel').classList.add('hidden');$('saveMsg').textContent='';$('saveMsg').className='status';}
 supabaseClient.auth.onAuthStateChange(()=>{if(!$('admin').classList.contains('hidden'))updateAdminAuth();});
 let _sig='';
-function renderBanner(){
+/*function renderBanner(){
  const sig=products.map(p=>p.id+'|'+p.image_url+'|'+p.category).join();if(sig===_sig)return;_sig=sig;
  const w=products.filter(p=>p.image_url),a=w[0],b=w[1];
  $('tiles').innerHTML=cats.slice(1).map(c=>{const p=products.find(x=>x.category===c&&x.image_url);return p?`<button type="button" class="tile" onclick="pickCat('${c}')"><span class="timg"><img src="${esc(p.image_url)}" alt="" loading="lazy"></span><span class="tlabel">${c}</span></button>`:''}).join('');
+}*/
+ function renderBanner(){
+ const categoryImages={
+   'Bolsas':'assets/bolsas.jpg',
+   'Carteras':'assets/carteras.jpg',
+   'Accesorios':'assets/accesorios.jpg',
+   'Otros':'assets/otros.jpg',
+   'Hombre':'assets/hombres.jpg'
+ };
+
+ $('tiles').innerHTML=cats.slice(1).map(c=>{
+   const url=categoryImages[c];
+   return url?`<button type="button" class="tile" onclick="pickCat('${c}')"><span class="timg"><img src="${url}" alt="${c}" loading="lazy"></span><span class="tlabel">${c}</span></button>`:'';
+ }).join('');
 }
 function pickCat(c){selected=c;$('q').value='';render();$('filters').scrollIntoView({behavior:'smooth'});}
 function openProduct(id){
